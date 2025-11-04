@@ -46,12 +46,161 @@
       z-index: 1;
     }
 
+    .dynamic-balloon {
+      opacity: 0.9;
+      animation: float-up-fast 15s ease-out forwards;
+      z-index: 999;
+    }
+
+    .burst-balloon {
+      animation: burst-float 8s ease-out forwards;
+      opacity: 1;
+    }
+
+    .wave-balloon {
+      animation: wave-float 10s ease-in-out forwards;
+      opacity: 0.95;
+    }
+
+    .celebration-balloon {
+      animation: celebration-float 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      opacity: 1;
+    }
+
+    .explosion-balloon {
+      animation: explode-outward 4s ease-out forwards;
+      opacity: 1;
+      transform-origin: center;
+    }
+
     @keyframes float-up {
       0%, 100% { transform: translateY(100vh) translateX(0); }
       25% { transform: translateY(75vh) translateX(30px); }
       50% { transform: translateY(50vh) translateX(-30px); }
       75% { transform: translateY(25vh) translateX(20px); }
       100% { transform: translateY(-100px) translateX(0); }
+    }
+
+    @keyframes float-up-fast {
+      0% { 
+        transform: translateY(100vh) translateX(0) rotate(0deg); 
+        opacity: 0.9; 
+      }
+      20% { 
+        transform: translateY(80vh) translateX(20px) rotate(45deg); 
+        opacity: 1; 
+      }
+      40% { 
+        transform: translateY(60vh) translateX(-15px) rotate(90deg); 
+        opacity: 0.9; 
+      }
+      60% { 
+        transform: translateY(40vh) translateX(25px) rotate(135deg); 
+        opacity: 0.8; 
+      }
+      80% { 
+        transform: translateY(20vh) translateX(-10px) rotate(180deg); 
+        opacity: 0.6; 
+      }
+      100% { 
+        transform: translateY(-50px) translateX(0) rotate(225deg); 
+        opacity: 0; 
+      }
+    }
+
+    @keyframes burst-float {
+      0% { 
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.5); 
+        opacity: 0; 
+      }
+      10% { 
+        transform: translateY(90vh) translateX(0) rotate(180deg) scale(1.2); 
+        opacity: 1; 
+      }
+      30% { 
+        transform: translateY(70vh) translateX(40px) rotate(360deg) scale(1); 
+        opacity: 1; 
+      }
+      60% { 
+        transform: translateY(40vh) translateX(-30px) rotate(540deg) scale(1.1); 
+        opacity: 0.8; 
+      }
+      100% { 
+        transform: translateY(-100px) translateX(20px) rotate(720deg) scale(0.8); 
+        opacity: 0; 
+      }
+    }
+
+    @keyframes wave-float {
+      0% { 
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(1); 
+        opacity: 0; 
+      }
+      15% { 
+        transform: translateY(85vh) translateX(60px) rotate(90deg) scale(1.3); 
+        opacity: 1; 
+      }
+      35% { 
+        transform: translateY(65vh) translateX(-40px) rotate(180deg) scale(1); 
+        opacity: 1; 
+      }
+      55% { 
+        transform: translateY(45vh) translateX(80px) rotate(270deg) scale(1.2); 
+        opacity: 0.9; 
+      }
+      75% { 
+        transform: translateY(25vh) translateX(-20px) rotate(360deg) scale(1); 
+        opacity: 0.7; 
+      }
+      100% { 
+        transform: translateY(-80px) translateX(0) rotate(450deg) scale(0.9); 
+        opacity: 0; 
+      }
+    }
+
+    @keyframes celebration-float {
+      0% { 
+        transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.8); 
+        opacity: 0; 
+      }
+      20% { 
+        transform: translateY(80vh) translateX(100px) rotate(180deg) scale(1.5); 
+        opacity: 1; 
+      }
+      40% { 
+        transform: translateY(60vh) translateX(-80px) rotate(360deg) scale(1.2); 
+        opacity: 1; 
+      }
+      60% { 
+        transform: translateY(40vh) translateX(120px) rotate(540deg) scale(1.4); 
+        opacity: 0.9; 
+      }
+      80% { 
+        transform: translateY(20vh) translateX(-60px) rotate(720deg) scale(1.1); 
+        opacity: 0.6; 
+      }
+      100% { 
+        transform: translateY(-120px) translateX(40px) rotate(900deg) scale(0.7); 
+        opacity: 0; 
+      }
+    }
+
+    @keyframes explode-outward {
+      0% { 
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.5); 
+        opacity: 0; 
+      }
+      20% { 
+        transform: translate(-50%, -50%) rotate(90deg) scale(1.5); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translate(-50%, -50%) 
+                   translateX(calc(cos(var(--explosion-angle)) * 400px)) 
+                   translateY(calc(sin(var(--explosion-angle)) * 400px)) 
+                   rotate(720deg) scale(0.3); 
+        opacity: 0; 
+      }
     }
 
     /* Main container */
@@ -77,22 +226,75 @@
       box-shadow: var(--shadow);
       text-align: center;
       opacity: 0;
-      transform: scale(0.9);
-      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: scale(0.9) translateY(50px);
+      transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .card.revealed {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1) translateY(0);
+    }
+
+    .card.initial-show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
     }
 
     .card h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gradient-pink) 0%, var(--gradient-orange) 50%, var(--gradient-yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
       letter-spacing: -1px;
-      animation: bounce-in 0.8s ease-out both;
+      animation: bounce-in 0.8s ease-out both, title-glow 3s ease-in-out infinite;
+      text-shadow: 0 4px 20px rgba(240, 147, 251, 0.3);
+      position: relative;
+    }
+
+    .card h1::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--gradient-pink) 0%, var(--gradient-orange) 50%, var(--gradient-yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: blur(8px);
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .name-highlight {
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 2s ease-in-out infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes title-glow {
+      0%, 100% { 
+        text-shadow: 0 4px 20px rgba(240, 147, 251, 0.3);
+        transform: scale(1);
+      }
+      50% { 
+        text-shadow: 0 4px 30px rgba(240, 147, 251, 0.6), 0 0 40px rgba(245, 87, 108, 0.4);
+        transform: scale(1.02);
+      }
     }
 
     @keyframes bounce-in {
@@ -115,6 +317,14 @@
       width: 200px;
       height: 200px;
       margin: 0 auto 2rem;
+      opacity: 0;
+      transform: translateY(-100px);
+      transition: all 1s ease-out;
+    }
+
+    .photo-container.slide-in {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .photo {
@@ -160,29 +370,108 @@
 
     .message {
       font-size: 1.125rem;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--text-dark);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       opacity: 0;
       transition: opacity 0.8s ease-out 0.4s;
+      min-height: 2.5em;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .message .highlight {
+      background: linear-gradient(135deg, var(--gradient-pink), var(--gradient-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .message .emphasis {
+      font-weight: 600;
+      color: var(--gradient-orange);
+      font-style: italic;
+    }
+
+    .message .quote {
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 3px solid var(--gradient-pink);
+      margin: 1rem 0;
+      font-style: italic;
+      background: rgba(240, 147, 251, 0.1);
+      padding: 1rem 1rem 1rem 1.5rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .message .decade-intro {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gradient-pink), var(--gradient-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      display: block;
     }
 
     .message.revealed {
       opacity: 1;
     }
 
+    .message.typing {
+      opacity: 1;
+    }
+
+    .message .typewriter-cursor {
+      display: inline-block;
+      background-color: var(--text-dark);
+      width: 2px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
     .signature {
-      font-size: 1rem;
-      font-weight: 300;
+      font-size: 1.2rem;
+      font-weight: 600;
       font-style: italic;
-      color: var(--text-light);
+      background: linear-gradient(135deg, var(--gradient-orange), var(--gradient-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       text-align: right;
       opacity: 0;
       transition: opacity 0.8s ease-out 0.6s;
+      text-shadow: 0 2px 10px rgba(245, 87, 108, 0.3);
+      position: relative;
+      margin-top: 1rem;
     }
 
     .signature.revealed {
       opacity: 1;
+    }
+
+    .signature::before {
+      content: '✨';
+      position: absolute;
+      left: -1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      animation: sparkle-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle-glow {
+      0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
+      50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
     }
 
     /* Carousel */
@@ -402,6 +691,680 @@
       .volume-slider { width: 60px; }
     }
 
+    /* Skip Intro Button */
+    .skip-intro {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .skip-intro:hover {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Date Display */
+    .date-display {
+      background: linear-gradient(135deg, var(--gradient-pink), var(--gradient-orange), var(--gradient-yellow));
+      border: none;
+      padding: 1.5rem 4rem;
+      border-radius: 3rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: all 0.3s ease;
+      letter-spacing: 2px;
+      min-width: 300px;
+    }
+
+    .date-display::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .date-display:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 35px rgba(240, 147, 251, 0.6);
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    /* Message Button */
+    .btn-message {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding: 1.5rem 3rem;
+      border: none;
+      border-radius: 3rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      outline: none;
+      margin: 0.5rem;
+      min-width: 280px;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      animation: pulse-click-hint 2s ease-in-out infinite;
+    }
+
+    .btn-message::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.6s ease;
+    }
+
+    .btn-message:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-message:hover {
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .btn-message:active {
+      transform: scale(0.98) translateY(-1px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+    }
+
+    @keyframes pulse-click-hint {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+      50% { 
+        transform: scale(1.02);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6), 0 0 0 4px rgba(102, 126, 234, 0.2);
+      }
+    }
+
+    .btn-message::after {
+      content: '👆 CLICK ME!';
+      position: absolute;
+      top: -25px;
+      right: -15px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ff6b6b;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.3rem 0.6rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      animation: bounce-click-me 2s ease-in-out infinite;
+      opacity: 0.9;
+      border: 2px solid #ff6b6b;
+      white-space: nowrap;
+    }
+
+    @keyframes bounce-click-me {
+      0%, 100% { 
+        transform: translateY(0px) scale(1);
+        opacity: 0.9;
+      }
+      25% { 
+        transform: translateY(-5px) scale(1.05);
+        opacity: 1;
+      }
+      50% { 
+        transform: translateY(-8px) scale(1.1);
+        opacity: 1;
+      }
+      75% { 
+        transform: translateY(-5px) scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    /* Glowing border animation */
+    .btn-message {
+      position: relative;
+    }
+
+    .btn-message::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffd93d, #ff6b6b);
+      background-size: 400% 400%;
+      border-radius: 3rem;
+      z-index: -1;
+      animation: rainbow-glow 3s ease-in-out infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes rainbow-glow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Animated Character Pointing */
+    .pointer-character {
+      position: absolute;
+      left: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      animation: character-bounce 2s ease-in-out infinite;
+    }
+
+    .character-man {
+      font-size: 3rem;
+      animation: point-down 1.5s ease-in-out infinite;
+    }
+
+    .pointing-hand {
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      z-index: 25;
+      animation: hand-point 1s ease-in-out infinite;
+    }
+
+    .speech-bubble {
+      position: absolute;
+      top: -60px;
+      left: 20px;
+      background: #fff;
+      color: #333;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: 2px solid #ff6b6b;
+      white-space: nowrap;
+      animation: bubble-pulse 1.5s ease-in-out infinite;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #fff;
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 18px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #ff6b6b;
+    }
+
+    @keyframes character-bounce {
+      0%, 100% {
+        transform: translateY(-50%) translateX(0px);
+      }
+      50% {
+        transform: translateY(-50%) translateX(5px);
+      }
+    }
+
+    @keyframes point-down {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(8px) rotate(5deg);
+      }
+    }
+
+    @keyframes hand-point {
+      0%, 100% {
+        transform: translateY(-50%) translateX(0px) scale(1);
+      }
+      50% {
+        transform: translateY(-50%) translateX(10px) scale(1.1);
+      }
+    }
+
+    @keyframes bubble-pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    /* Notebook Modal */
+    .notebook-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      padding: 1rem;
+    }
+
+    .notebook-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .notebook {
+      width: 95%;
+      max-width: 900px;
+      max-height: 85vh;
+      position: relative;
+      transform: scale(0.7) rotateX(15deg) rotateY(-5deg);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+    }
+
+    .notebook-overlay.active .notebook {
+      transform: scale(1) rotateX(0deg) rotateY(0deg);
+    }
+
+    .notebook-page {
+      flex: 1;
+      background: linear-gradient(145deg, #f7f3e9, #ede4d3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notebook-page::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          transparent,
+          transparent 24px,
+          rgba(0, 0, 0, 0.08) 25px
+        ),
+        radial-gradient(circle at 20px 20px, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      background-size: 100% 25px, 20px 20px;
+      pointer-events: none;
+    }
+
+    .notebook-page.left {
+      border-radius: 15px 0 0 15px;
+      box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .notebook-page.right {
+      border-radius: 0 15px 15px 0;
+      box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .notebook-header {
+      background: linear-gradient(135deg, #8b7355, #a0956b);
+      padding: 1rem 1.5rem;
+      border-radius: 15px 15px 0 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .notebook-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f7f3e9;
+      margin: 0;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 50%;
+      right: 1.5rem;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #f7f3e9;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .notebook-content {
+      padding: 5rem 2rem 2rem;
+      max-height: 75vh;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .notebook-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .notebook-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    .notebook-content::-webkit-scrollbar-thumb {
+      background: rgba(139, 115, 85, 0.5);
+      border-radius: 4px;
+    }
+
+    .notebook-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 115, 85, 0.7);
+    }
+
+    .message-text {
+      font-family: 'Courier New', 'Lucida Console', monospace;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #2c3e50;
+      margin: 0;
+      text-align: left;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+    }
+
+    .message-text .greeting {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #8b7355;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .message-text .signature {
+      font-style: italic;
+      text-align: right;
+      margin-top: 2rem;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .notebook-binding {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(90deg, #6d5d42, #8b7355, #6d5d42);
+      transform: translateX(-50%);
+      z-index: 15;
+      box-shadow: 
+        -2px 0 5px rgba(0, 0, 0, 0.2),
+        2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .notebook-binding::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 15%;
+      bottom: 15%;
+      width: 3px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #5a4a35 0px,
+        #5a4a35 12px,
+        transparent 12px,
+        transparent 18px
+      );
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .notebook-binding::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      top: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 100%);
+    }
+
+    .page-margin {
+      border-left: 2px solid rgba(255, 0, 0, 0.3);
+      margin-left: 2rem;
+      padding-left: 1rem;
+    }
+
+    .notebook-page.right .page-margin {
+      border-left: none;
+      border-right: 2px solid rgba(255, 0, 0, 0.3);
+      margin-left: 0;
+      margin-right: 2rem;
+      padding-left: 0;
+      padding-right: 1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .notebook {
+        width: 98%;
+        max-height: 90vh;
+        flex-direction: column;
+      }
+
+      .notebook-page {
+        border-radius: 0;
+      }
+
+      .notebook-page.left {
+        border-radius: 15px 15px 0 0;
+        max-height: 45vh;
+      }
+
+      .notebook-page.right {
+        border-radius: 0 0 15px 15px;
+        max-height: 45vh;
+      }
+
+      .notebook-binding {
+        left: 0;
+        right: 0;
+        top: 50%;
+        bottom: auto;
+        width: auto;
+        height: 20px;
+        transform: translateY(-50%);
+        background: linear-gradient(180deg, #6d5d42, #8b7355, #6d5d42);
+      }
+
+      .notebook-binding::before {
+        left: 15%;
+        right: 15%;
+        top: 50%;
+        bottom: auto;
+        width: auto;
+        height: 3px;
+        background: repeating-linear-gradient(
+          to right,
+          #5a4a35 0px,
+          #5a4a35 12px,
+          transparent 12px,
+          transparent 18px
+        );
+        transform: translateY(-50%);
+      }
+
+      .notebook-content {
+        padding: 1.5rem;
+        max-height: 40vh;
+      }
+
+      .notebook-header {
+        position: relative;
+        border-radius: 15px 15px 0 0;
+      }
+
+      .message-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .notebook-title {
+        font-size: 1.1rem;
+      }
+
+      .btn-message {
+        font-size: 1.1rem;
+        padding: 1.2rem 2.5rem;
+        min-width: 260px;
+      }
+
+      .btn-message::after {
+        font-size: 0.7rem;
+        top: -20px;
+        right: -10px;
+        padding: 0.2rem 0.4rem;
+      }
+
+      .pointer-character {
+        left: -60px;
+        transform: translateY(-50%) scale(0.8);
+      }
+
+      .character-man {
+        font-size: 2.5rem;
+      }
+
+      .pointing-hand {
+        right: -30px;
+        font-size: 1.5rem;
+      }
+
+      .speech-bubble {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        top: -50px;
+        left: 15px;
+      }
+
+      .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .button-container button,
+      .button-container .date-display {
+        width: 100%;
+        max-width: 280px;
+        margin: 0.3rem 0;
+      }
+
+      .page-margin {
+        margin-left: 1rem;
+        padding-left: 0.5rem;
+      }
+
+      .notebook-page.right .page-margin {
+        margin-right: 1rem;
+        padding-right: 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .notebook-content {
+        padding: 1rem;
+      }
+
+      .message-text {
+        font-size: 0.85rem;
+      }
+
+      .notebook-header {
+        padding: 0.8rem 1rem;
+      }
+
+      .notebook-title {
+        font-size: 1rem;
+      }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -421,8 +1384,11 @@
 
   <!-- Overlay for autoplay fallback -->
   <div class="overlay hidden" id="overlay">
-    <button class="overlay-button" id="overlayBtn">🔊 Tap to Play Music</button>
+    <button class="overlay-button" id="overlayBtn">🎂 Make a Wish</button>
   </div>
+
+  <!-- Skip Intro Button -->
+  <button class="skip-intro" id="skipIntro" style="display: none;">Skip Intro</button>
 
   <!-- Floating balloons -->
   <div class="balloon" style="left: 10%; animation-delay: 0s;">🎈</div>
@@ -441,11 +1407,57 @@
   <div class="sparkle" style="left: 35%; top: 50%; animation-delay: 1.8s; width: 5px; height: 5px;"></div>
   <div class="sparkle" style="left: 70%; top: 10%; animation-delay: 0.8s;"></div>
 
+  <!-- Notebook Modal -->
+  <div class="notebook-overlay" id="notebookOverlay">
+    <div class="notebook" id="notebook">
+      <div class="notebook-binding"></div>
+      
+      <!-- Header spans both pages -->
+      <div class="notebook-header">
+        <h3 class="notebook-title">Message From Junaid</h3>
+        <button class="close-btn" id="closeNotebook" aria-label="Close notebook">×</button>
+      </div>
+      
+      <!-- Left Page -->
+      <div class="notebook-page left">
+        <div class="notebook-content">
+          <div class="page-margin">
+            <div class="message-text">
+              <span class="greeting">Soheli,</span>
+              From random café hangouts and all the usual college chaos to CSE struggles, shared tiffins, and those last-minute project rescues — we've had a pretty solid run.<br><br>
+              
+              There's never been a dull day with our group — between the jokes, the late submissions, and the countless random talks that started about code and ended somewhere completely else. You've always brought that balance — chill enough to make everything fun, and focused enough to keep things on track when the rest of us were all over the place.<br><br>
+              
+              What stands out most is your nature — easy-going, calm, and genuinely good at heart. You treat people right, handle things with patience, and somehow make it all look effortless.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Page -->
+      <div class="notebook-page right">
+        <div class="notebook-content">
+          <div class="page-margin">
+            <div class="message-text">
+              That's rare, and it's something I've always respected about you.<br><br>
+              
+              College life hits different when you've got people like you around — the kind who make memories without even trying.<br><br>
+              
+              So keep that same vibe as you move forward — grounded, kind, and effortlessly real. The 20s will throw a lot at you, but you've already got the right attitude to handle it.<br><br>
+              
+              <div class="signature">— Junaid</div>
+              <div style="text-align: right; margin-top: 1rem; font-style: italic; color: #8b7355; font-size: 0.9rem;">From Junaid</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main container -->
   <div class="container">
     <div class="card" id="card">
-      <h1 id="title">Happy Birthday, <span id="nameSpan">Soheli</span>! 🥳</h1>
-      <p class="subtitle">Made with love and a little bit of code 💻❤️</p>
+      <h1 id="title">Happy Birthday, <span id="nameSpan" class="name-highlight">Soheli</span>! 🥳</h1>
       
       <div class="photo-container">
         <img src="" alt="Soheli smiling" class="photo" id="photo" style="display: none;">
@@ -463,7 +1475,15 @@
 
       <div class="button-container" id="buttonContainer">
         <button class="btn-primary" id="surpriseBtn">🎉 Play Surprise</button>
-        <button class="btn-secondary" id="replayBtn" style="display: none;">🔄 Replay Music</button>
+        <div class="date-display" id="dateDisplay" style="display: none;">6th November</div>
+        <div style="position: relative; display: inline-block;">
+          <button class="btn-message" id="messageBtn" style="display: none;" title="Click to read Junaid's special message for you!">Message From Junaid</button>
+          <div class="pointer-character" id="pointerCharacter" style="display: none;">
+            <div class="speech-bubble">Click Here!</div>
+            <div class="character-man">🧑‍💼</div>
+            <div class="pointing-hand">👉</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -475,7 +1495,7 @@
       from: "Junaid",
       photo: "assets/soheli.jpg",
       audio: "assets/happy_birthday.mp3",
-      message: "Wishing you a year full of sunshine, laughter, and every slice of cake you want. You deserve all the good things life has to offer.",
+      message: '<span class="decade-intro">✨ Welcome to Your 20s ✨</span>This is the decade where <span class="highlight">nothing goes exactly as planned</span> — and that\'s the <span class="emphasis">beauty of it</span>.<br><br>You\'ll <span class="highlight">change, outgrow, and rebuild</span> more times than you expect.<br><br><div class="quote">Just remember, every version of you deserves respect — even the one still figuring things out.</div>',
       memPhotos: ["assets/mem1.jpg", "assets/mem2.jpg", "assets/mem3.jpg"],
       memCaptions: ["Beautiful memories 💫", "Cherished moments 💝", "Wonderful times 🌟"]
     };
@@ -498,23 +1518,34 @@
       carouselCaption: document.getElementById('carouselCaption'),
       buttonContainer: document.getElementById('buttonContainer'),
       surpriseBtn: document.getElementById('surpriseBtn'),
-      replayBtn: document.getElementById('replayBtn'),
+      messageBtn: document.getElementById('messageBtn'),
+      dateDisplay: document.getElementById('dateDisplay'),
       muteBtn: document.getElementById('muteBtn'),
       volumeSlider: document.getElementById('volumeSlider'),
-      nameSpan: document.getElementById('nameSpan')
+      nameSpan: document.getElementById('nameSpan'),
+      skipIntro: document.getElementById('skipIntro'),
+      photoContainer: document.querySelector('.photo-container'),
+      notebookOverlay: document.getElementById('notebookOverlay'),
+      notebook: document.getElementById('notebook'),
+      closeNotebook: document.getElementById('closeNotebook'),
+      pointerCharacter: document.getElementById('pointerCharacter')
     };
 
     // ===== STATE =====
     let revealed = false;
     let carouselIndex = 0;
     let carouselInterval = null;
+    let typewriterActive = false;
+    let skipIntroPressed = false;
 
     // ===== INITIALIZE =====
     function init() {
       // Set content
       elements.nameSpan.textContent = CONFIG.name;
-      elements.message.textContent = CONFIG.message;
       elements.signature.textContent = `— ${CONFIG.from}`;
+      
+      // Clear message for typewriter effect
+      elements.message.textContent = '';
 
       // Load photo
       const img = new Image();
@@ -531,15 +1562,18 @@
       // Check carousel
       checkCarousel();
 
-      // Try autoplay
-      tryAutoplay();
+      // Start entrance animations
+      startEntranceAnimations();
 
       // Event listeners
       elements.overlayBtn.addEventListener('click', handleOverlayClick);
       elements.surpriseBtn.addEventListener('click', handleSurpriseClick);
-      elements.replayBtn.addEventListener('click', handleReplay);
+      elements.messageBtn.addEventListener('click', openNotebook);
+      elements.closeNotebook.addEventListener('click', closeNotebook);
+      elements.notebookOverlay.addEventListener('click', handleOverlayClickOutside);
       elements.muteBtn.addEventListener('click', toggleMute);
       elements.volumeSlider.addEventListener('input', handleVolumeChange);
+      elements.skipIntro.addEventListener('click', skipIntro);
 
       // Keyboard support
       document.addEventListener('keydown', (e) => {
@@ -548,6 +1582,11 @@
             e.preventDefault();
             handleOverlayClick();
           }
+        }
+        
+        // Close notebook with Escape key
+        if (e.key === 'Escape' && elements.notebookOverlay.classList.contains('active')) {
+          closeNotebook();
         }
       });
     }
@@ -568,6 +1607,7 @@
     function handleOverlayClick() {
       audio.play();
       elements.overlay.classList.add('hidden');
+      createBalloonShower();
       runReveal();
     }
 
@@ -610,7 +1650,13 @@
       // Show buttons
       elements.buttonContainer.classList.add('revealed');
       elements.surpriseBtn.style.display = 'none';
-      elements.replayBtn.style.display = 'inline-block';
+      elements.messageBtn.style.display = 'inline-block';
+      elements.dateDisplay.style.display = 'inline-block';
+      
+      // Show pointer character after a short delay
+      setTimeout(() => {
+        elements.pointerCharacter.style.display = 'block';
+      }, 1000);
 
       // Start carousel
       if (elements.carousel.classList.contains('visible')) {
@@ -646,11 +1692,32 @@
       }, 250);
     }
 
-    // ===== REPLAY =====
-    function handleReplay() {
-      audio.currentTime = 0;
-      audio.play();
-      fireConfetti();
+
+    // ===== NOTEBOOK MODAL =====
+    function openNotebook() {
+      elements.notebookOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Add a slight delay for the animation
+      setTimeout(() => {
+        elements.notebook.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+      }, 50);
+    }
+
+    function closeNotebook() {
+      elements.notebookOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      // Reset transform for next opening
+      setTimeout(() => {
+        elements.notebook.style.transform = 'scale(0.7) rotateX(15deg) rotateY(-5deg)';
+      }, 400);
+    }
+
+    function handleOverlayClickOutside(e) {
+      if (e.target === elements.notebookOverlay) {
+        closeNotebook();
+      }
     }
 
     // ===== AUDIO CONTROLS =====
@@ -684,6 +1751,225 @@
         elements.carouselImg.src = CONFIG.memPhotos[carouselIndex];
         elements.carouselCaption.textContent = CONFIG.memCaptions[carouselIndex] || '';
       }, 4000);
+    }
+
+    // ===== ENTRANCE ANIMATIONS =====
+    function startEntranceAnimations() {
+      // Show card first
+      setTimeout(() => {
+        elements.card.classList.add('initial-show');
+        startTitleTypewriter();
+      }, 500);
+
+      // Slide photo from top
+      setTimeout(() => {
+        elements.photoContainer.classList.add('slide-in');
+      }, 1500);
+
+      // Start message typewriter effect
+      setTimeout(() => {
+        startTypewriter();
+      }, 2500);
+    }
+
+    function startTitleTypewriter() {
+      const titleElement = document.getElementById('title');
+      const originalTitle = 'Happy Birthday, <span id="nameSpan" class="name-highlight">Soheli</span>! 🥳';
+      const plainTitle = 'Happy Birthday, Soheli! 🥳';
+      
+      titleElement.innerHTML = '';
+      titleElement.style.opacity = '1';
+      
+      let index = 0;
+      
+      function typeTitle() {
+        if (index < plainTitle.length) {
+          if (index < 15) { // "Happy Birthday, "
+            titleElement.innerHTML = plainTitle.substring(0, index + 1) + '<span class="typewriter-cursor">&nbsp;</span>';
+          } else if (index >= 15 && index < 21) { // "Soheli"
+            const beforeName = plainTitle.substring(0, 15);
+            const nameChar = plainTitle.substring(15, index + 1);
+            const afterName = '';
+            titleElement.innerHTML = beforeName + '<span class="name-highlight">' + nameChar + '</span>' + afterName + '<span class="typewriter-cursor">&nbsp;</span>';
+          } else { // "! 🥳"
+            const beforeName = plainTitle.substring(0, 15);
+            const name = 'Soheli';
+            const afterName = plainTitle.substring(21, index + 1);
+            titleElement.innerHTML = beforeName + '<span class="name-highlight">' + name + '</span>' + afterName + '<span class="typewriter-cursor">&nbsp;</span>';
+          }
+          index++;
+          setTimeout(typeTitle, 100);
+        } else {
+          // Show final styled title
+          titleElement.innerHTML = originalTitle;
+          // Update nameSpan reference
+          elements.nameSpan = document.getElementById('nameSpan');
+          elements.nameSpan.textContent = CONFIG.name;
+        }
+      }
+      
+      typeTitle();
+    }
+
+    function startTypewriter() {
+      if (skipIntroPressed) return;
+      
+      typewriterActive = true;
+      elements.skipIntro.style.display = 'block';
+      elements.message.classList.add('typing');
+      
+      // Create a temporary div to parse HTML and get plain text for typing
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = CONFIG.message;
+      const plainText = tempDiv.textContent || tempDiv.innerText || '';
+      
+      let index = 0;
+      
+      function typeChar() {
+        if (skipIntroPressed) {
+          completeTypewriter();
+          return;
+        }
+        
+        if (index < plainText.length) {
+          // Show plain text while typing
+          elements.message.innerHTML = plainText.substring(0, index + 1) + '<span class="typewriter-cursor">&nbsp;</span>';
+          index++;
+          setTimeout(typeChar, 30); // Faster typing speed for better UX
+        } else {
+          // Show final styled HTML content
+          elements.message.innerHTML = CONFIG.message;
+          typewriterActive = false;
+          elements.skipIntro.style.display = 'none';
+          
+          setTimeout(() => {
+            tryAutoplay();
+          }, 1000);
+        }
+      }
+      
+      typeChar();
+    }
+
+    function completeTypewriter() {
+      typewriterActive = false;
+      elements.message.innerHTML = CONFIG.message;
+      elements.message.classList.remove('typing');
+      elements.skipIntro.style.display = 'none';
+      tryAutoplay();
+    }
+
+    function skipIntro() {
+      skipIntroPressed = true;
+      completeTypewriter();
+    }
+
+    // ===== BALLOON CELEBRATION BURST =====
+    function createBalloonShower() {
+      const balloonEmojis = ['🎈', '🎊', '🎉', '🎁', '🎂', '🌟', '✨', '💫', '🎀', '🎭', '🎪', '🎨'];
+      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8', '#ff9ff3', '#54a0ff', '#5f27cd'];
+      
+      // MASSIVE BALLOON BURST - 50 balloons in waves!
+      
+      // First wave - 20 balloons (immediate burst)
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          createSingleBalloon(balloonEmojis, colors, 'burst');
+        }, i * 50);
+      }
+      
+      // Second wave - 15 balloons (delayed burst)
+      setTimeout(() => {
+        for (let i = 0; i < 15; i++) {
+          setTimeout(() => {
+            createSingleBalloon(balloonEmojis, colors, 'wave');
+          }, i * 100);
+        }
+      }, 1000);
+      
+      // Third wave - 15 balloons (final celebration)
+      setTimeout(() => {
+        for (let i = 0; i < 15; i++) {
+          setTimeout(() => {
+            createSingleBalloon(balloonEmojis, colors, 'celebration');
+          }, i * 150);
+        }
+      }, 2500);
+      
+      // Create balloon explosion from center
+      createBalloonExplosion(balloonEmojis, colors);
+    }
+
+    function createSingleBalloon(emojis, colors, animationType = 'normal') {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon dynamic-balloon';
+      balloon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      // Different animation types
+      if (animationType === 'burst') {
+        balloon.classList.add('burst-balloon');
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.fontSize = (Math.random() * 2 + 2) + 'rem';
+        balloon.style.animationDuration = (Math.random() * 3 + 8) + 's';
+      } else if (animationType === 'wave') {
+        balloon.classList.add('wave-balloon');
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.fontSize = (Math.random() * 1.8 + 1.8) + 'rem';
+        balloon.style.animationDuration = (Math.random() * 4 + 10) + 's';
+      } else if (animationType === 'celebration') {
+        balloon.classList.add('celebration-balloon');
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.fontSize = (Math.random() * 2.5 + 2.5) + 'rem';
+        balloon.style.animationDuration = (Math.random() * 6 + 12) + 's';
+      } else {
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
+        balloon.style.animationDuration = (Math.random() * 5 + 15) + 's';
+      }
+      
+      balloon.style.color = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.animationDelay = '0s';
+      balloon.style.zIndex = '999';
+      
+      document.body.appendChild(balloon);
+      
+      // Remove balloon after animation
+      setTimeout(() => {
+        if (balloon.parentNode) {
+          balloon.parentNode.removeChild(balloon);
+        }
+      }, 25000);
+    }
+
+    function createBalloonExplosion(emojis, colors) {
+      // Create 12 balloons that explode from center in all directions
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          const balloon = document.createElement('div');
+          balloon.className = 'balloon explosion-balloon';
+          balloon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          
+          // Start from center
+          balloon.style.left = '50%';
+          balloon.style.top = '50%';
+          balloon.style.fontSize = (Math.random() * 2 + 2.5) + 'rem';
+          balloon.style.color = colors[Math.floor(Math.random() * colors.length)];
+          balloon.style.zIndex = '1000';
+          
+          // Calculate explosion direction
+          const angle = (i / 12) * 360;
+          balloon.style.setProperty('--explosion-angle', angle + 'deg');
+          
+          document.body.appendChild(balloon);
+          
+          // Remove after explosion
+          setTimeout(() => {
+            if (balloon.parentNode) {
+              balloon.parentNode.removeChild(balloon);
+            }
+          }, 4000);
+        }, i * 100);
+      }
     }
 
     // ===== START =====
