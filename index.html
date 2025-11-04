@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Soheli! 🥳</title>
+  <meta name="description" content="A special birthday message for Soheli, made with love and a little bit of code by Junaid">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    /* ===== CONFIG STYLES (Edit colors/spacing here) ===== */
+    :root {
+      --gradient-pink: #f093fb;
+      --gradient-orange: #f5576c;
+      --gradient-yellow: #ffd140;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text-dark: #333;
+      --text-light: #666;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--gradient-pink) 0%, var(--gradient-orange) 50%, var(--gradient-yellow) 100%);
+      position: relative;
+    }
+
+    /* Floating balloons */
+    .balloon {
+      position: fixed;
+      font-size: 3rem;
+      opacity: 0.7;
+      animation: float-up 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes float-up {
+      0%, 100% { transform: translateY(100vh) translateX(0); }
+      25% { transform: translateY(75vh) translateX(30px); }
+      50% { transform: translateY(50vh) translateX(-30px); }
+      75% { transform: translateY(25vh) translateX(20px); }
+      100% { transform: translateY(-100px) translateX(0); }
+    }
+
+    /* Main container */
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Birthday card */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: var(--shadow);
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card.revealed {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      letter-spacing: -1px;
+      animation: bounce-in 0.8s ease-out both;
+    }
+
+    @keyframes bounce-in {
+      0% { transform: translateY(-100px); opacity: 0; }
+      50% { transform: translateY(20px); opacity: 1; }
+      100% { transform: translateY(0); }
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Photo */
+    .photo-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 2rem;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      filter: blur(10px);
+      transform: scale(0.8);
+      transition: all 0.8s ease-out;
+    }
+
+    .photo.revealed {
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    .photo.pulsing {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.5); }
+      50% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 40px rgba(255, 255, 255, 0.8); }
+    }
+
+    .photo-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gradient-pink), var(--gradient-orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      font-weight: 700;
+      color: white;
+      border: 6px solid white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .message {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      opacity: 0;
+      transition: opacity 0.8s ease-out 0.4s;
+    }
+
+    .message.revealed {
+      opacity: 1;
+    }
+
+    .signature {
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-light);
+      text-align: right;
+      opacity: 0;
+      transition: opacity 0.8s ease-out 0.6s;
+    }
+
+    .signature.revealed {
+      opacity: 1;
+    }
+
+    /* Carousel */
+    .carousel {
+      margin: 2rem auto 0;
+      max-width: 400px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.8s ease-out 0.8s;
+    }
+
+    .carousel.visible {
+      display: block;
+    }
+
+    .carousel.revealed {
+      opacity: 1;
+    }
+
+    .carousel-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-caption {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .button-container {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.8s ease-out 1s;
+    }
+
+    .button-container.revealed {
+      opacity: 1;
+    }
+
+    button {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 3rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      outline: none;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(0, 0, 0, 0.3);
+      outline-offset: 3px;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text-dark);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: #f9f9f9;
+      transform: translateY(-2px);
+    }
+
+    /* Overlay for autoplay fallback */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    .overlay-button {
+      font-size: 1.5rem;
+      padding: 2rem 3rem;
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      animation: pulse-scale 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-scale {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Audio controls */
+    .audio-controls {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.75rem 1rem;
+      border-radius: 3rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+
+    .control-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .control-btn:focus-visible {
+      outline: 2px solid var(--gradient-orange);
+      outline-offset: 2px;
+      border-radius: 50%;
+    }
+
+    .volume-slider {
+      width: 80px;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(to right, var(--gradient-pink), var(--gradient-orange));
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 2px solid var(--gradient-orange);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 2px solid var(--gradient-orange);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 3s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.9; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .card h1 { font-size: 2rem; }
+      .card { padding: 2rem 1.5rem; }
+      .photo-container { width: 160px; height: 160px; }
+      .button-container { flex-direction: column; }
+      button { width: 100%; }
+      .audio-controls { top: 1rem; right: 1rem; padding: 0.5rem 0.75rem; }
+      .volume-slider { width: 60px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Audio Controls -->
+  <div class="audio-controls">
+    <button class="control-btn" id="muteBtn" aria-label="Mute/Unmute" title="Mute/Unmute">🔊</button>
+    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" aria-label="Volume">
+  </div>
+
+  <!-- Overlay for autoplay fallback -->
+  <div class="overlay hidden" id="overlay">
+    <button class="overlay-button" id="overlayBtn">🔊 Tap to Play Music</button>
+  </div>
+
+  <!-- Floating balloons -->
+  <div class="balloon" style="left: 10%; animation-delay: 0s;">🎈</div>
+  <div class="balloon" style="left: 25%; animation-delay: 2s; font-size: 2rem;">🎊</div>
+  <div class="balloon" style="left: 75%; animation-delay: 1s; font-size: 2.5rem;">🎉</div>
+  <div class="balloon" style="left: 85%; animation-delay: 3s; font-size: 2.2rem;">🎈</div>
+  <div class="balloon" style="left: 50%; animation-delay: 1.5s; font-size: 2.8rem;">🎊</div>
+
+  <!-- Sparkles -->
+  <div class="sparkle" style="left: 15%; top: 20%; animation-delay: 0s;"></div>
+  <div class="sparkle" style="left: 80%; top: 30%; animation-delay: 1s;"></div>
+  <div class="sparkle" style="left: 45%; top: 15%; animation-delay: 2s; width: 5px; height: 5px;"></div>
+  <div class="sparkle" style="left: 90%; top: 60%; animation-delay: 1.5s;"></div>
+  <div class="sparkle" style="left: 20%; top: 70%; animation-delay: 0.5s;"></div>
+  <div class="sparkle" style="left: 60%; top: 80%; animation-delay: 2.5s;"></div>
+  <div class="sparkle" style="left: 35%; top: 50%; animation-delay: 1.8s; width: 5px; height: 5px;"></div>
+  <div class="sparkle" style="left: 70%; top: 10%; animation-delay: 0.8s;"></div>
+
+  <!-- Main container -->
+  <div class="container">
+    <div class="card" id="card">
+      <h1 id="title">Happy Birthday, <span id="nameSpan">Soheli</span>! 🥳</h1>
+      <p class="subtitle">Made with love and a little bit of code 💻❤️</p>
+      
+      <div class="photo-container">
+        <img src="" alt="Soheli smiling" class="photo" id="photo" style="display: none;">
+        <div class="photo-fallback" id="photoFallback" style="display: none;">S</div>
+      </div>
+
+      <p class="message" id="message"></p>
+      <p class="signature" id="signature"></p>
+
+      <!-- Optional carousel -->
+      <div class="carousel" id="carousel">
+        <img src="" alt="Memory" class="carousel-image" id="carouselImg" loading="lazy">
+        <p class="carousel-caption" id="carouselCaption"></p>
+      </div>
+
+      <div class="button-container" id="buttonContainer">
+        <button class="btn-primary" id="surpriseBtn">🎉 Play Surprise</button>
+        <button class="btn-secondary" id="replayBtn" style="display: none;">🔄 Replay Music</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIGURATION (Edit values here) =====
+    const CONFIG = {
+      name: "Soheli",
+      from: "Junaid",
+      photo: "assets/soheli.jpg",
+      audio: "assets/happy_birthday.mp3",
+      message: "Wishing you a year full of sunshine, laughter, and every slice of cake you want. You deserve all the good things life has to offer.",
+      memPhotos: ["assets/mem1.jpg", "assets/mem2.jpg", "assets/mem3.jpg"],
+      memCaptions: ["Beautiful memories 💫", "Cherished moments 💝", "Wonderful times 🌟"]
+    };
+
+    // ===== ELEMENTS =====
+    const audio = new Audio(CONFIG.audio);
+    audio.loop = true;
+    audio.volume = 0.5;
+
+    const elements = {
+      overlay: document.getElementById('overlay'),
+      overlayBtn: document.getElementById('overlayBtn'),
+      card: document.getElementById('card'),
+      photo: document.getElementById('photo'),
+      photoFallback: document.getElementById('photoFallback'),
+      message: document.getElementById('message'),
+      signature: document.getElementById('signature'),
+      carousel: document.getElementById('carousel'),
+      carouselImg: document.getElementById('carouselImg'),
+      carouselCaption: document.getElementById('carouselCaption'),
+      buttonContainer: document.getElementById('buttonContainer'),
+      surpriseBtn: document.getElementById('surpriseBtn'),
+      replayBtn: document.getElementById('replayBtn'),
+      muteBtn: document.getElementById('muteBtn'),
+      volumeSlider: document.getElementById('volumeSlider'),
+      nameSpan: document.getElementById('nameSpan')
+    };
+
+    // ===== STATE =====
+    let revealed = false;
+    let carouselIndex = 0;
+    let carouselInterval = null;
+
+    // ===== INITIALIZE =====
+    function init() {
+      // Set content
+      elements.nameSpan.textContent = CONFIG.name;
+      elements.message.textContent = CONFIG.message;
+      elements.signature.textContent = `— ${CONFIG.from}`;
+
+      // Load photo
+      const img = new Image();
+      img.onload = () => {
+        elements.photo.src = CONFIG.photo;
+        elements.photo.style.display = 'block';
+      };
+      img.onerror = () => {
+        elements.photoFallback.textContent = CONFIG.name.charAt(0).toUpperCase();
+        elements.photoFallback.style.display = 'flex';
+      };
+      img.src = CONFIG.photo;
+
+      // Check carousel
+      checkCarousel();
+
+      // Try autoplay
+      tryAutoplay();
+
+      // Event listeners
+      elements.overlayBtn.addEventListener('click', handleOverlayClick);
+      elements.surpriseBtn.addEventListener('click', handleSurpriseClick);
+      elements.replayBtn.addEventListener('click', handleReplay);
+      elements.muteBtn.addEventListener('click', toggleMute);
+      elements.volumeSlider.addEventListener('input', handleVolumeChange);
+
+      // Keyboard support
+      document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          if (!elements.overlay.classList.contains('hidden')) {
+            e.preventDefault();
+            handleOverlayClick();
+          }
+        }
+      });
+    }
+
+    // ===== AUTOPLAY =====
+    async function tryAutoplay() {
+      try {
+        await audio.play();
+        console.log('Autoplay successful');
+        setTimeout(runReveal, 100);
+      } catch (error) {
+        console.log('Autoplay blocked, showing overlay');
+        elements.overlay.classList.remove('hidden');
+      }
+    }
+
+    // ===== OVERLAY CLICK =====
+    function handleOverlayClick() {
+      audio.play();
+      elements.overlay.classList.add('hidden');
+      runReveal();
+    }
+
+    // ===== SURPRISE BUTTON =====
+    function handleSurpriseClick() {
+      if (!revealed) {
+        audio.play();
+        runReveal();
+      }
+    }
+
+    // ===== REVEAL ANIMATION =====
+    function runReveal() {
+      if (revealed) return;
+      revealed = true;
+
+      // Fire confetti
+      fireConfetti();
+
+      // Show card
+      elements.card.classList.add('revealed');
+
+      // Sharpen & scale photo
+      elements.photo.classList.add('revealed');
+
+      // Add pulsing effect
+      setTimeout(() => {
+        elements.photo.classList.add('pulsing');
+      }, 800);
+
+      // Fade in message
+      elements.message.classList.add('revealed');
+      elements.signature.classList.add('revealed');
+
+      // Show carousel if exists
+      if (elements.carousel.classList.contains('visible')) {
+        elements.carousel.classList.add('revealed');
+      }
+
+      // Show buttons
+      elements.buttonContainer.classList.add('revealed');
+      elements.surpriseBtn.style.display = 'none';
+      elements.replayBtn.style.display = 'inline-block';
+
+      // Start carousel
+      if (elements.carousel.classList.contains('visible')) {
+        startCarousel();
+      }
+    }
+
+    // ===== CONFETTI =====
+    function fireConfetti() {
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+      }, 250);
+    }
+
+    // ===== REPLAY =====
+    function handleReplay() {
+      audio.currentTime = 0;
+      audio.play();
+      fireConfetti();
+    }
+
+    // ===== AUDIO CONTROLS =====
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      elements.muteBtn.textContent = audio.muted ? '🔇' : '🔊';
+    }
+
+    function handleVolumeChange(e) {
+      audio.volume = e.target.value / 100;
+    }
+
+    // ===== CAROUSEL =====
+    function checkCarousel() {
+      // Check if first mem photo exists
+      const img = new Image();
+      img.onload = () => {
+        elements.carousel.classList.add('visible');
+        elements.carouselImg.src = CONFIG.memPhotos[0];
+        elements.carouselCaption.textContent = CONFIG.memCaptions[0] || '';
+      };
+      img.onerror = () => {
+        elements.carousel.style.display = 'none';
+      };
+      img.src = CONFIG.memPhotos[0];
+    }
+
+    function startCarousel() {
+      carouselInterval = setInterval(() => {
+        carouselIndex = (carouselIndex + 1) % CONFIG.memPhotos.length;
+        elements.carouselImg.src = CONFIG.memPhotos[carouselIndex];
+        elements.carouselCaption.textContent = CONFIG.memCaptions[carouselIndex] || '';
+      }, 4000);
+    }
+
+    // ===== START =====
+    init();
+  </script>
+</body>
+</html>

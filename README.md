@@ -1,159 +1,156 @@
-# 🎉 Happy Birthday Soheli! 🎂
+# 🎉 Happy Birthday Website
 
-A beautiful, animated single-page birthday website with music, confetti, and floating balloons. Made with love and code by Junaid.
-
-## ✨ Features
-
-- 🎵 Auto-playing Happy Birthday music (with fallback for autoplay restrictions)
-- 🎊 Confetti burst animation on page load
-- 🎈 Floating emoji balloons with smooth CSS animations
-- ✨ Twinkling sparkle effects
-- 🖼️ Circular profile photo with pulsing glow effect
-- 📱 Fully responsive and mobile-friendly design
-- 🎨 Vibrant gradient background (pink → orange → yellow)
-- 🔊 Music controls (play/pause, mute/unmute)
-- 🔄 Replay Music button (triggers new confetti burst)
-- 💬 Send Wish via WhatsApp button
+A beautiful, lightweight, single-file birthday page with auto-playing music, confetti, and animated reveals. Made with love and a little bit of code!
 
 ## 🚀 Quick Start
 
-### Prerequisites
+1. **Open `index.html` in your browser** — that's it! The page is ready to use.
 
-- Node.js (v18 or higher)
-- npm or yarn
+2. **Add your assets:**
+   - Place the birthday person's photo at: **`assets/soheli.jpg`**
+   - Place the Happy Birthday audio at: **`assets/happy_birthday.mp3`**
 
-### Installation
+3. **Customize the content** by editing the `CONFIG` block at the top of `index.html`:
 
-1. Clone or download this repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. **Add the audio file:**
-   - Download a royalty-free "Happy Birthday" mp3 file
-   - Place it at `client/public/assets/happy_birthday.mp3`
-   
-   **Recommended sources for royalty-free music:**
-   - [Pixabay Music](https://pixabay.com/music/search/happy%20birthday/)
-   - [Free Music Archive](https://freemusicarchive.org/)
-   - [YouTube Audio Library](https://www.youtube.com/audiolibrary)
-
-4. **Replace the photo (optional):**
-   - Current photo is at `client/public/assets/soheli.jpg`
-   - Replace with your own photo (recommended size: 500x500px)
-
-5. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-6. Open your browser and visit the URL shown in the terminal (usually `http://0.0.0.0:5000`)
-
-## 🎨 Customization
-
-### Change the Name and Message
-
-Edit `client/src/pages/BirthdayPage.tsx`:
-
-```tsx
-<BirthdayCard
-  name="Your Name Here"  // Change the birthday person's name
-  photoUrl="/assets/soheli.jpg"  // Path to the photo
-  message="Your custom birthday message here..."  // Customize the message
-  signature="— Your Name"  // Change the signature
-  isPlaying={isPlaying}
-/>
-```
-
-### Change the WhatsApp Message
-
-Edit the `handleSendWish` function in `client/src/pages/BirthdayPage.tsx`:
-
-```tsx
-const handleSendWish = () => {
-  const message = encodeURIComponent("Your custom WhatsApp message here!");
-  window.open(`https://wa.me/?text=${message}`, '_blank');
+```javascript
+const CONFIG = {
+  name: "Soheli",              // Birthday person's name
+  from: "Junaid",              // Your name
+  photo: "assets/soheli.jpg",  // Path to photo
+  audio: "assets/happy_birthday.mp3",  // Path to audio
+  message: "Your custom message here...",
+  memPhotos: ["assets/mem1.jpg", "assets/mem2.jpg", "assets/mem3.jpg"],
+  memCaptions: ["Caption 1", "Caption 2", "Caption 3"]
 };
-```
-
-### Customize Colors
-
-The gradient background can be adjusted in `client/src/index.css`. Look for these CSS variables:
-
-```css
-:root {
-  --gradient-pink: 340 82% 75%;
-  --gradient-orange: 25 95% 65%;
-  --gradient-yellow: 45 93% 70%;
-}
 ```
 
 ## 📁 Project Structure
 
 ```
-client/
-├── public/
-│   └── assets/
-│       ├── soheli.jpg          # Birthday person's photo
-│       └── happy_birthday.mp3  # Background music (you need to add this)
-├── src/
-│   ├── components/
-│   │   ├── BirthdayCard.tsx    # Main card with photo and message
-│   │   ├── FloatingBalloons.tsx # Floating balloon animations
-│   │   ├── Sparkles.tsx        # Sparkle effects
-│   │   └── MusicPlayer.tsx     # Audio controls
-│   ├── pages/
-│   │   └── BirthdayPage.tsx    # Main birthday page
-│   └── App.tsx                 # App entry point
+.
+├── index.html              # The complete birthday page (HTML + CSS + JS)
+├── assets/
+│   ├── soheli.jpg         # Birthday person's photo (you need to add this)
+│   ├── happy_birthday.mp3 # Birthday music (you need to add this)
+│   ├── mem1.jpg           # Optional: Memory photo 1
+│   ├── mem2.jpg           # Optional: Memory photo 2
+│   └── mem3.jpg           # Optional: Memory photo 3
+└── README.md              # This file
 ```
-
-## 🌐 Deployment
-
-### Deploy on Replit
-
-This project is ready to deploy on Replit:
-
-1. Click the "Publish" button in your Replit workspace
-2. Your birthday website will be live at a `.replit.app` URL
-3. Share the link with the birthday person!
-
-### Deploy on GitHub Pages
-
-1. Build the project:
-   ```bash
-   npm run build
-   ```
-
-2. Deploy the `dist` folder to GitHub Pages
-
-### Deploy on Vercel/Netlify
-
-1. Connect your repository to Vercel or Netlify
-2. They will automatically detect it's a Vite project
-3. Deploy with one click!
 
 ## 🎵 Audio File Requirements
 
 - **Format:** MP3 (recommended) or WAV
-- **Duration:** 30-60 seconds recommended (will loop)
+- **Duration:** 30-60 seconds (will loop automatically)
 - **File size:** Keep under 5MB for faster loading
-- **Location:** `client/public/assets/happy_birthday.mp3`
+- **Location:** `assets/happy_birthday.mp3`
 
-**Note:** Modern browsers may block autoplay with sound. If autoplay is blocked, the website will automatically show a "Tap to Play Music" button.
+### Where to get royalty-free Happy Birthday music:
+- [Pixabay Music](https://pixabay.com/music/search/happy%20birthday/)
+- [Free Music Archive](https://freemusicarchive.org/)
+- [YouTube Audio Library](https://www.youtube.com/audiolibrary)
 
-## 💝 Made With
+## 📸 Photo Requirements
 
-- React + TypeScript
-- Tailwind CSS
-- Canvas Confetti
-- Vite
-- Lucide Icons
+- **Format:** JPG or PNG
+- **Recommended size:** 500x500px (square works best for circular crop)
+- **File size:** Keep under 2MB
+- **Location:** `assets/soheli.jpg`
 
-## 📝 License
+## 🎨 Features
 
-This is a personal birthday project. Feel free to use and customize it for your own birthday wishes!
+✅ **Auto-play music** — Attempts to play on page load  
+✅ **Graceful fallback** — Shows overlay button if browser blocks autoplay  
+✅ **Confetti burst** — Triggers when music starts or manually via "Play Surprise"  
+✅ **Smooth reveal animation** — Photo sharpens, text fades in beautifully  
+✅ **Photo pulse effect** — Subtle glow synced to music  
+✅ **Music controls** — Mute/unmute button and volume slider in top-right  
+✅ **Replay button** — Restarts music and triggers new confetti  
+✅ **Optional memory carousel** — Shows rotating photos if mem1.jpg, mem2.jpg, mem3.jpg exist  
+✅ **Mobile-friendly** — Fully responsive design  
+✅ **Keyboard accessible** — All buttons work with keyboard navigation  
+✅ **Reduced motion support** — Respects user's motion preferences  
+
+## ⚠️ Browser Autoplay Note
+
+Most modern browsers block autoplay with sound. If the music doesn't start automatically:
+1. A big **"🔊 Tap to Play Music"** overlay will appear
+2. Click it to start the music and trigger the reveal
+3. Or click the **"🎉 Play Surprise"** button on the card
+
+## 🎭 Optional Memory Carousel
+
+The carousel automatically appears if you add these files:
+- `assets/mem1.jpg`
+- `assets/mem2.jpg`
+- `assets/mem3.jpg`
+
+Photos will auto-rotate every 4 seconds. If the files don't exist, the carousel is hidden.
+
+Edit captions in the CONFIG:
+```javascript
+memCaptions: ["First memory 💫", "Second memory 💝", "Third memory 🌟"]
+```
+
+## 🎨 Customization
+
+### Change Colors
+
+Edit the `:root` CSS variables in the `<style>` section:
+
+```css
+:root {
+  --gradient-pink: #f093fb;
+  --gradient-orange: #f5576c;
+  --gradient-yellow: #ffd140;
+  --card-bg: rgba(255, 255, 255, 0.92);
+}
+```
+
+### Change Fonts
+
+The page uses **Poppins** from Google Fonts. To use a different font:
+1. Update the Google Fonts `<link>` in the `<head>`
+2. Change `font-family: 'Poppins'` in the CSS
+
+## 🌐 Deployment
+
+### Option 1: Replit (Easiest)
+1. Upload `index.html` and the `assets/` folder to your Replit
+2. Click "Run" or just open `index.html` in the browser
+3. Share your Replit URL!
+
+### Option 2: GitHub Pages
+1. Create a GitHub repository
+2. Upload `index.html` and `assets/` folder
+3. Enable GitHub Pages in repository settings
+4. Your site will be live at `https://username.github.io/repo-name/`
+
+### Option 3: Any Web Host
+Just upload the `index.html` file and `assets/` folder to any web hosting service (Netlify, Vercel, etc.)
+
+## 🛠️ Technical Details
+
+- **Pure HTML/CSS/JS** — No frameworks, no build step
+- **Single file** — Everything is in `index.html`
+- **Canvas Confetti** — Loaded from CDN (cdn.jsdelivr.net)
+- **Google Fonts** — Poppins loaded from fonts.googleapis.com
+- **Modern CSS** — CSS animations, gradients, backdrop-filter
+- **Accessible** — Keyboard navigation, focus states, ARIA labels
+- **Performant** — Lazy-loaded carousel images
+
+## 📱 Browser Support
+
+Works on all modern browsers:
+- ✅ Chrome/Edge (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+
+## 💝 Credits
+
+Made with 💻❤️ by Junaid for Soheli
 
 ---
 
-**Made with 💻❤️ by Junaid**
+**Enjoy the celebration! 🥳🎊🎉**
