@@ -1,0 +1,76 @@
+Build a single-file, static, mobile-friendly birthday page (plain index.html with inline CSS & JS) that uses the assets at assets/soheli.jpg and assets/happy_birthday.mp3. Keep the project lightweight and ready to run on Replit. Focus on a fast, delightful reveal experience — no admin panels, no secret inputs, no download feature.
+
+Core behavior
+
+Try to auto-play assets/happy_birthday.mp3 on page load. If the browser blocks autoplay, show a clear overlay button: 🔊 Tap to Play Music that starts the audio and runs the reveal.
+
+When audio starts (auto or via tap), trigger:
+
+a confetti burst (use canvas-confetti or a small JS confetti routine),
+
+the main reveal animation (photo sharpens & scales, headline animates, message fades in),
+
+an optional subtle pulse around the photo synced roughly to the music beat.
+
+Provide a Play Surprise 🎉 big button as the manual reveal fallback (keeps existing UX).
+
+Add a Replay Music button that restarts the song and retriggers confetti.
+
+Provide a visible Mute / Unmute icon and a simple volume slider (0–100%) in the top-right — easy to spot and use.
+
+Layout & visuals
+
+Full-screen gradient background (pink → orange → yellow) with subtle floating emoji/balloon effects.
+
+Center card with rounded corners containing:
+
+Title: Happy Birthday, Soheli! 🥳
+
+Subtitle: Made with love and a little bit of code 💻❤️
+
+Circular photo using assets/soheli.jpg (alt text: Soheli smiling)
+
+Short message:
+Wishing you a year full of sunshine, laughter, and cake. — Junaid
+
+Keep fonts modern (Poppins or Inter via Google Fonts) and spacing airy. Make buttons large and touch-friendly.
+
+Optional memory carousel
+
+If assets/mem1.jpg, assets/mem2.jpg, assets/mem3.jpg exist, show a small auto-rotating carousel beneath the main photo with captions. If not present, hide the carousel.
+
+CONFIG (single block at top of the file — Replit should leave this editable)
+
+const CONFIG = {
+  name: "Soheli",
+  from: "Junaid",
+  photo: "assets/soheli.jpg",
+  audio: "assets/happy_birthday.mp3",
+  message: "Wishing you a year full of sunshine, laughter, and cake. — Junaid",
+  memPhotos: ["assets/mem1.jpg","assets/mem2.jpg","assets/mem3.jpg"]
+};
+
+
+Accessibility & performance
+
+Buttons must be keyboard-focusable with visible focus outlines.
+
+Respect prefers-reduced-motion (reduce or disable heavy animation if set).
+
+Lazy-load carousel images and compress assets where possible.
+
+Provide graceful fallback if soheli.jpg is missing (show initials “S” in a circle).
+
+Deliverables
+
+A runnable Replit project with a single index.html (inline CSS + JS), assets/ folder placeholders, and a short README that explains:
+
+Where to drop the photo: assets/soheli.jpg
+
+Where to drop the audio: assets/happy_birthday.mp3
+
+How to change CONFIG values
+
+Note about browser autoplay: “If audio is blocked, press the big 🔊 Tap to Play Music overlay.”
+
+Keep it simple — no admin PINs, no secret inputs, no download button, no extra button labels I didn’t ask for. Prioritize: autoplay + graceful fallback → reveal + confetti → replay/mute/volume → optional carousel.
