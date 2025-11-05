@@ -1010,24 +1010,24 @@
 
     .notebook {
       width: 95%;
-      max-width: 900px;
+      max-width: 700px;
       max-height: 85vh;
       position: relative;
-      transform: scale(0.7) rotateX(15deg) rotateY(-5deg);
+      transform: scale(0.9) translateY(50px);
       transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(145deg, #f7f3e9, #ede4d3);
     }
 
     .notebook-overlay.active .notebook {
-      transform: scale(1) rotateX(0deg) rotateY(0deg);
+      transform: scale(1) translateY(0);
     }
 
     .notebook-page {
-      flex: 1;
-      background: linear-gradient(145deg, #f7f3e9, #ede4d3);
+      width: 100%;
+      background: transparent;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -1043,32 +1043,27 @@
       background: 
         repeating-linear-gradient(
           transparent,
-          transparent 24px,
-          rgba(0, 0, 0, 0.08) 25px
-        ),
-        radial-gradient(circle at 20px 20px, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-      background-size: 100% 25px, 20px 20px;
+          transparent 28px,
+          rgba(0, 0, 0, 0.06) 29px
+        );
+      background-size: 100% 29px;
       pointer-events: none;
     }
 
     .notebook-page.left {
-      border-radius: 15px 0 0 15px;
-      box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: none;
     }
 
     .notebook-page.right {
-      border-radius: 0 15px 15px 0;
-      box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: none;
     }
 
     .notebook-header {
       background: linear-gradient(135deg, #8b7355, #a0956b);
       padding: 1rem 1.5rem;
       border-radius: 15px 15px 0 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: relative;
       z-index: 10;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
@@ -1108,8 +1103,8 @@
     }
 
     .notebook-content {
-      padding: 5rem 2rem 2rem;
-      max-height: 75vh;
+      padding: 2rem;
+      max-height: 70vh;
       overflow-y: auto;
       position: relative;
       z-index: 1;
@@ -1135,14 +1130,15 @@
     }
 
     .message-text {
-      font-family: 'Courier New', 'Lucida Console', monospace;
-      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
       line-height: 1.8;
       color: #2c3e50;
       margin: 0;
       text-align: left;
       letter-spacing: 0.3px;
       text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+      max-width: none;
     }
 
     .message-text .greeting {
@@ -1162,63 +1158,14 @@
     }
 
     .notebook-binding {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-      background: linear-gradient(90deg, #6d5d42, #8b7355, #6d5d42);
-      transform: translateX(-50%);
-      z-index: 15;
-      box-shadow: 
-        -2px 0 5px rgba(0, 0, 0, 0.2),
-        2px 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .notebook-binding::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 15%;
-      bottom: 15%;
-      width: 3px;
-      background: repeating-linear-gradient(
-        to bottom,
-        #5a4a35 0px,
-        #5a4a35 12px,
-        transparent 12px,
-        transparent 18px
-      );
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-
-    .notebook-binding::after {
-      content: '';
-      position: absolute;
-      left: 2px;
-      right: 2px;
-      top: 0;
-      bottom: 0;
-      background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.3) 0%,
-        transparent 50%,
-        rgba(0, 0, 0, 0.1) 100%);
+      display: none;
     }
 
     .page-margin {
-      border-left: 2px solid rgba(255, 0, 0, 0.3);
-      margin-left: 2rem;
-      padding-left: 1rem;
-    }
-
-    .notebook-page.right .page-margin {
-      border-left: none;
-      border-right: 2px solid rgba(255, 0, 0, 0.3);
-      margin-left: 0;
-      margin-right: 2rem;
-      padding-left: 0;
-      padding-right: 1rem;
+      border-left: 3px solid rgba(139, 115, 85, 0.4);
+      margin-left: 1.5rem;
+      padding-left: 1.5rem;
+      border-radius: 2px;
     }
 
     /* Mobile Responsive */
@@ -1226,68 +1173,24 @@
       .notebook {
         width: 98%;
         max-height: 90vh;
-        flex-direction: column;
       }
 
       .notebook-page {
-        border-radius: 0;
-      }
-
-      .notebook-page.left {
-        border-radius: 15px 15px 0 0;
-        max-height: 45vh;
-      }
-
-      .notebook-page.right {
-        border-radius: 0 0 15px 15px;
-        max-height: 45vh;
-      }
-
-      .notebook-binding {
-        left: 0;
-        right: 0;
-        top: 50%;
-        bottom: auto;
-        width: auto;
-        height: 20px;
-        transform: translateY(-50%);
-        background: linear-gradient(180deg, #6d5d42, #8b7355, #6d5d42);
-      }
-
-      .notebook-binding::before {
-        left: 15%;
-        right: 15%;
-        top: 50%;
-        bottom: auto;
-        width: auto;
-        height: 3px;
-        background: repeating-linear-gradient(
-          to right,
-          #5a4a35 0px,
-          #5a4a35 12px,
-          transparent 12px,
-          transparent 18px
-        );
-        transform: translateY(-50%);
+        border-radius: 15px;
       }
 
       .notebook-content {
         padding: 1.5rem;
-        max-height: 40vh;
-      }
-
-      .notebook-header {
-        position: relative;
-        border-radius: 15px 15px 0 0;
+        max-height: 75vh;
       }
 
       .message-text {
-        font-size: 0.9rem;
-        line-height: 1.6;
+        font-size: 1rem;
+        line-height: 1.7;
       }
 
       .notebook-title {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
 
       .btn-message {
@@ -1338,12 +1241,7 @@
 
       .page-margin {
         margin-left: 1rem;
-        padding-left: 0.5rem;
-      }
-
-      .notebook-page.right .page-margin {
-        margin-right: 1rem;
-        padding-right: 0.5rem;
+        padding-left: 1rem;
       }
     }
 
@@ -1353,7 +1251,8 @@
       }
 
       .message-text {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
 
       .notebook-header {
@@ -1362,6 +1261,11 @@
 
       .notebook-title {
         font-size: 1rem;
+      }
+
+      .page-margin {
+        margin-left: 0.5rem;
+        padding-left: 0.8rem;
       }
     }
 
@@ -1418,35 +1322,24 @@
         <button class="close-btn" id="closeNotebook" aria-label="Close notebook">×</button>
       </div>
       
-      <!-- Left Page -->
+      <!-- Single Page -->
       <div class="notebook-page left">
         <div class="notebook-content">
           <div class="page-margin">
             <div class="message-text">
-              <span class="greeting">Soheli,</span>
+              <span class="greeting">Dear Soheli,</span>
+              
               From random café hangouts and all the usual college chaos to CSE struggles, shared tiffins, and those last-minute project rescues — we've had a pretty solid run.<br><br>
               
               There's never been a dull day with our group — between the jokes, the late submissions, and the countless random talks that started about code and ended somewhere completely else. You've always brought that balance — chill enough to make everything fun, and focused enough to keep things on track when the rest of us were all over the place.<br><br>
               
-              What stands out most is your nature — easy-going, calm, and genuinely good at heart. You treat people right, handle things with patience, and somehow make it all look effortless.
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Right Page -->
-      <div class="notebook-page right">
-        <div class="notebook-content">
-          <div class="page-margin">
-            <div class="message-text">
-              That's rare, and it's something I've always respected about you.<br><br>
+              What stands out most is your nature — easy-going, calm, and genuinely good at heart. You treat people right, handle things with patience, and somehow make it all look effortless. That's rare, and it's something I've always respected about you.<br><br>
               
               College life hits different when you've got people like you around — the kind who make memories without even trying.<br><br>
               
               So keep that same vibe as you move forward — grounded, kind, and effortlessly real. The 20s will throw a lot at you, but you've already got the right attitude to handle it.<br><br>
               
-              <div class="signature">— Junaid</div>
-              <div style="text-align: right; margin-top: 1rem; font-style: italic; color: #8b7355; font-size: 0.9rem;">From Junaid</div>
+              <span class="greeting">From Junaid</span>
             </div>
           </div>
         </div>
